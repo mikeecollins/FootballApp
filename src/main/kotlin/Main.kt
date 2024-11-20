@@ -1,6 +1,12 @@
 package org.example
 
+import io.github.oshai.kotlinlogging.KotlinLogging
+import org.example.utils.readNextInt
 import java.lang.System.exit
+
+
+
+private val logger = KotlinLogging.logger {}
 
 fun main() {
     runMenu()
@@ -28,8 +34,8 @@ fun mainMenu(): Int {
           ----------------------------------
           |   0) Exit                      |
           ////////////////\\\\\\\\\\\\\\\\\\
-          ==>> """.trimMargin(">"))
-    return readln().toInt()
+          >> """.trimMargin(">"))
+    return readNextInt(" > ==>>")
 }
 fun runMenu() {
     do {
@@ -37,55 +43,55 @@ fun runMenu() {
         when (option) {
             1  -> addTeam()
             2  -> listTeam()
-            3  -> updateTeams()
-            4  -> deleteTeams()
+            3  -> updateTeam()
+            4  -> deleteTeam()
             5  -> trophyWon()
             6  -> addPlayer()
             7  -> listPlayer()
             8  -> updatePlayer()
             9  -> deletePlayer()
-            10 -> kitNumbers()
+            10 -> kitNumber()
             0  -> exitApp()
-            else -> println("Invalid option entered: " + option)
+            else -> println("Invalid option entered: ${option}")
         }
     } while (true)
 }
 fun addTeam(){
-    println("You have selected to add a team")
+    logger.info { "addTeam() function invoked" }
 }
 
 fun listTeam(){
-    println("You have selected to list a team")
+    logger.info { "listTeam() function invoked" }
 }
 
-fun updateTeams(){
-    println("You have selected to update a team")
+fun updateTeam(){
+    logger.info { "updateTeam() function invoked" }
 }
 
-fun deleteTeams(){
-    println("You have selected to delete a team")
+fun deleteTeam(){
+    logger.info { "deleteTeam() function invoked" }
 }
 
 fun trophyWon(){
-    println("You have selected to see if a team has won the league")
+    logger.info { "trophyWon() function invoked" }
 }
 
 fun addPlayer(){
-    println("You have selected to add a player")
+    logger.info { "addPlayer() function invoked" }
 }
 
 fun listPlayer(){
-    println("You have selected to list a player")
+    logger.info { "listPlayer() function invoked" }
 }
 fun updatePlayer(){
-    println("You have selected to update a player")
+    logger.info { "updatePlayer() function invoked" }
 }
 fun deletePlayer(){
-    println("You have selected to delete a player")
+    logger.info { "deletePlayer() function invoked" }
 }
 
-fun kitNumbers(){
-    println("You have selected to add points")
+fun kitNumber(){
+    logger.info { "kitNumber() function invoked" }
 }
 
 
