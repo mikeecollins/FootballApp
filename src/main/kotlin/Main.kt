@@ -1,12 +1,19 @@
 package org.example
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.example.controllers.PlayerAPI
+import org.example.controllers.TeamAPI
+import org.example.models.Player
+import org.example.models.Team
 import org.example.utils.readNextInt
+import org.example.utils.readNextLine
 import java.lang.System.exit
 
 
 
 private val logger = KotlinLogging.logger {}
+private val teamAPI = TeamAPI()
+private val playerAPI = PlayerAPI()
 
 fun main() {
     runMenu()
@@ -22,15 +29,15 @@ fun mainMenu(): Int {
           |   2) List all teams            |
           |   3) Update a team             |
           |   4) Delete a team             |
-          |   5) How many trophies won     |
+          |                                |
           |--------------------------------|
           |  PLAYER MENU                   |
           |--------------------------------|
-          |   6) Add a player              |
-          |   7) List all players          |
-          |   8) Update a players          |
-          |   9) Delete a players          |
-          |   10) Kit numbers              |
+          |   5) Add a player              |
+          |   6) List all players          |
+          |   7) Update a players          |
+          |   8) Delete a players          |
+          |                                |
           ----------------------------------
           |   0) Exit                      |
           ////////////////\\\\\\\\\\\\\\\\\\
@@ -45,23 +52,48 @@ fun runMenu() {
             2  -> listTeam()
             3  -> updateTeam()
             4  -> deleteTeam()
-            5  -> trophyWon()
-            6  -> addPlayer()
-            7  -> listPlayer()
-            8  -> updatePlayer()
-            9  -> deletePlayer()
-            10 -> kitNumber()
+            5  -> addPlayer()
+            6  -> listPlayer()
+            7  -> updatePlayer()
+            8  -> deletePlayer()
             0  -> exitApp()
             else -> println("Invalid option entered: ${option}")
         }
     } while (true)
 }
 fun addTeam(){
-    logger.info { "addTeam() function invoked" }
+
+    val Teamdivision = readNextLine("Enter the teams current divsion")
+    val Teamsponsor = readNextLine("Enter a sponsorship for a team:")
+    val Teamname =  readNextLine("Enter a team name:")
+    val Teampoints = readNextInt("Enter points the team have earned this season (Max is 30)")
+    val isAdded = teamAPI.add(Team(Teamdivision,Teamsponsor,Teamname,Teampoints,false))
+
+    if (isAdded) {
+        println("Added successfully")
+    } else{
+        println("Add failed")
+    }
 }
 
+fun addPlayer(){
+
+    val Firstname = readNextLine("Enter the players firtname")
+    val Lastname = readNextLine("Enter the players last name")
+    val Playernumber = readNextInt("Enter the players kit number")
+    val Playerposition = readNextLine("Where does this player play?")
+    val isAdded = playerAPI.add(Player(Firstname,Lastname,Playerposition,Playernumber))
+
+    if (isAdded) {
+        println("Added successfully")
+    } else{
+        println("Add failed")
+    }
+}
+
+
 fun listTeam(){
-    logger.info { "listTeam() function invoked" }
+    println(teamAPI.listAllTeams())
 }
 
 fun updateTeam(){
@@ -72,16 +104,8 @@ fun deleteTeam(){
     logger.info { "deleteTeam() function invoked" }
 }
 
-fun trophyWon(){
-    logger.info { "trophyWon() function invoked" }
-}
-
-fun addPlayer(){
-    logger.info { "addPlayer() function invoked" }
-}
-
 fun listPlayer(){
-    logger.info { "listPlayer() function invoked" }
+    println(playerAPI.listAllPlayers())
 }
 fun updatePlayer(){
     logger.info { "updatePlayer() function invoked" }
@@ -89,12 +113,6 @@ fun updatePlayer(){
 fun deletePlayer(){
     logger.info { "deletePlayer() function invoked" }
 }
-
-fun kitNumber(){
-    logger.info { "kitNumber() function invoked" }
-}
-
-
 
 
 fun exitApp(){
