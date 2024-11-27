@@ -1,5 +1,6 @@
 package org.example.controllers
 
+import org.example.models.Player
 import org.example.models.Team
 
 class TeamAPI {
@@ -20,6 +21,21 @@ class TeamAPI {
             }
             listofTeams
         }
+    }
+
+    fun numberOfTeams(): Int {
+        return teams.size
+    }
+
+    fun findTeams(index: Int): Team? {
+        return if (isValidListIndex(index, teams)) {
+            teams[index]
+        } else null
+    }
+
+
+    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+        return (index >= 0 && index < list.size)
     }
 }
 
