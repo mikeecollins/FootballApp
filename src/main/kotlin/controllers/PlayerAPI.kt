@@ -11,13 +11,13 @@ class PlayerAPI {
 
     fun listAllPlayers(): String {
         return if (players.isEmpty()) {
-            "No teams availible"
+            "no players available"
         } else {
-            var listofTeams = ""
+            var listofPlayers = ""
             for (i in players.indices) {
-                listofTeams += "${i}: ${players[i]} \n"
+                listofPlayers += "${i}: ${players[i]} \n"
             }
-            listofTeams
+            listofPlayers
         }
     }
 

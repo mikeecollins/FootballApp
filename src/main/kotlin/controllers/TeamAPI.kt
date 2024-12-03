@@ -13,7 +13,7 @@ class TeamAPI {
 
     fun listAllTeams(): String {
         return if (teams.isEmpty()) {
-            "No teams availible"
+            "no teams available"
         } else {
             var listofTeams = ""
             for (i in teams.indices) {
