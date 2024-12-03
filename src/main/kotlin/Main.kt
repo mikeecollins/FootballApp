@@ -5,6 +5,7 @@ import org.example.controllers.PlayerAPI
 import org.example.controllers.TeamAPI
 import org.example.models.Player
 import org.example.models.Team
+import org.example.utils.readNextDouble
 import org.example.utils.readNextInt
 import org.example.utils.readNextLine
 import java.lang.System.exit
@@ -80,9 +81,11 @@ fun addPlayer(){
 
     val Firstname = readNextLine("Enter the players firtname")
     val Lastname = readNextLine("Enter the players last name")
+    val  Playerposition= readNextLine("Which posistion does this player play in")
+    val  Playerprice= readNextDouble(" Enter the players price")
     val Playernumber = readNextInt("Enter the players kit number")
-    val Playerposition = readNextLine("Where does this player play?")
-    val isAdded = playerAPI.add(Player(Firstname,Lastname,Playerposition,Playernumber))
+    val isAdded = playerAPI.add(Player(Firstname,Lastname,Playerposition,Playerprice,Playernumber,false))
+
 
     if (isAdded) {
         println("Added successfully")

@@ -11,15 +11,31 @@ class PlayerAPI {
 
     fun listAllPlayers(): String {
         return if (players.isEmpty()) {
-            "No teams availible"
+            "no players available"
         } else {
-            var listofTeams = ""
+            var listofPlayers = ""
             for (i in players.indices) {
-                listofTeams += "${i}: ${players[i]} \n"
+                listofPlayers += "${i}: ${players[i]} \n"
             }
-            listofTeams
+            listofPlayers
         }
     }
+
+    fun numberOfPlayers(): Int {
+        return players.size
+    }
+
+    fun findPlayer(index: Int): Player? {
+        return if (isValidListIndex(index, players)) {
+            players[index]
+        } else null
+    }
+
+    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+        return (index >= 0 && index < list.size)
+    }
 }
+
+
 
 

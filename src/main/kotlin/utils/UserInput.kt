@@ -29,3 +29,15 @@ fun readNextChar(prompt: String?): Char {
         }
     } while (true)
 }
+
+fun readDoubleNotNull() = readlnOrNull()?.toDoubleOrNull() ?: -1.0
+fun readNextDouble(prompt: String?): Double {
+    do {
+        try {
+            print(prompt)
+            return readln().toDouble()
+        } catch (e: NumberFormatException) {
+            System.err.println("\tEnter a decimal number please.")
+        }
+    } while (true)
+}
