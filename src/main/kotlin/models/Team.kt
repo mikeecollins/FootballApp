@@ -5,6 +5,7 @@ data class Team (
    val Teamsponsor: String,
    val Teamname: String,
    val Teampoints: Int,
+   val Teamposition: Int,
    val isTitleWon: Boolean,
 )
 

@@ -3,9 +3,11 @@ package controllers
 import org.example.controllers.PlayerAPI
 import org.example.models.Player
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -23,10 +25,10 @@ class PlayerAPITest {
     @BeforeEach
     fun setup() {
         playerOne = Player("Ebidimo", "Collins", "Left wing/Striker", 100.00, 7, false)
-        playerTwo = Player("Zach", "Power", "Left Back", 150.00, 4, false)
+        playerTwo = Player("Zach", "Power", "Left Back", 150.00, 4, true)
         playerThree = Player("Bold", "John", "Striker", 200.00, 9, false)
         playerFour = Player("Anuj", "Yaduv", "Right Wing", 1000.00, 11, false)
-        playerFive = Player("Chris", "Yasen", "Center Defensive Midfielder", 2000.00, 6, false)
+        playerFive = Player("Chris", "Yasen", "Center Defensive Midfielder", 2000.00, 6, true)
 
         fullList!!.add(playerOne!!)
         fullList!!.add(playerTwo!!)
@@ -87,6 +89,40 @@ class PlayerAPITest {
                 assertTrue(playersString.contains("bold"))
                 assertTrue(playersString.contains("anuj"))
                 assertTrue(playersString.contains("chris"))
+            }
+
+            @Test
+            fun `listActivePlayers returns no active players stored when ArrayList is empty`() {
+                assertEquals(0, noPlayers!!.numberofActivePlayers())
+                assertTrue(noPlayers!!.listActivePlayers().lowercase().contains("no active players available"))
+            }
+
+            @Test
+            fun`listActivePlayers returns active players when ArrayList has active players stored`() {
+                assertEquals(3, fullList!!.numberofActivePlayers())
+                val activePlayersString = fullList!!.listActivePlayers().lowercase()
+                assertTrue(activePlayersString.contains("bold"))
+                assertFalse(activePlayersString.contains("zach"))
+                assertTrue(activePlayersString.contains("ebidimo"))
+                assertTrue(activePlayersString.contains("anuj"))
+                assertFalse(activePlayersString.contains("chris"))
+            }
+
+            @Test
+            fun `listInjuredPlayers returns no injured players when ArrayList is empty`(){
+                assertEquals(0, noPlayers!!.numberOfInjuredPlayers())
+                assertTrue(noPlayers!!.listInjuredPlayers().lowercase().contains("no injured players available"))
+            }
+
+            @Test
+            fun `listInjuredPlayers returns injured players when ArrayList has injured players stored`(){
+            assertEquals(3, fullList!!.numberOfInjuredPlayers())
+            val injuredPlayersString = fullList!!.listInjuredPlayers().lowercase(Locale.getDefault())
+                assertFalse(injuredPlayersString.contains("bold"))
+                assertTrue(injuredPlayersString.contains("zach"))
+                assertFalse(injuredPlayersString.contains("ebidimo"))
+                assertFalse(injuredPlayersString.contains("anuj"))
+                assertTrue(injuredPlayersString.contains("chris"))
             }
         }
     }

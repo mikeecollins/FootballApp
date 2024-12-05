@@ -34,7 +34,58 @@ class PlayerAPI {
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
+
+    fun listActivePlayers(): String {
+        return if (numberofActivePlayers() == 0) {
+            "no active players available"
+        } else {
+            var listOfActivePlayer = ""
+            for (player in players) {
+                if (!player.Playerinjury) {
+                    listOfActivePlayer += "${players.indexOf(player)}: $player \n"
+                }
+            }
+            listOfActivePlayer
+        }
+    }
+
+    fun listInjuredPlayers(): String {
+        return if (numberOfInjuredPlayers() == 0) {
+            "no injured players available"
+        } else {
+            var listInjuredPlayers = ""
+            for (player in players) {
+                if (player.Playerinjury) {
+                    listInjuredPlayers += "${players.indexOf(player)}: $player \n"
+                }
+            }
+            listInjuredPlayers
+        }
+    }
+
+    fun numberOfInjuredPlayers(): Int {
+        var counter = 0
+        for (player in players) {
+            if (!player.Playerinjury) {
+                counter++
+            }
+        }
+
+        return counter
+    }
+
+    fun numberofActivePlayers(): Int{
+        var counter = 0
+        for(player in players){
+            if (!player.Playerinjury) {
+                counter++
+            }
+        }
+        return counter
+    }
 }
+
+
 
 
 

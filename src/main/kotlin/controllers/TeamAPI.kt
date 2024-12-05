@@ -37,7 +37,59 @@ class TeamAPI {
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
+
+    fun listActiveTeams(): String {
+        return if (numberOfActiveTeams() == 0) {
+            "no active teams available"
+        } else {
+            var listOfActiveTeam = ""
+            for (team in teams) {
+                if (!team.isTitleWon) {
+                    listOfActiveTeam += "${teams.indexOf(team)}: $team \n"
+                }
+            }
+            listOfActiveTeam
+        }
+
+
+    }
+    fun listTrophyTeams(): String {
+        return if (numberOfWinningTeams() == 0) {
+            "no title winning team available"
+        } else {
+            var listTrophyTeam = ""
+            for (team in teams) {
+                if (team.isTitleWon) {
+                    listTrophyTeam += "${teams.indexOf(team)}: $team \n"
+                }
+            }
+            listTrophyTeam
+        }
+    }
+
+    fun numberOfActiveTeams(): Int {
+        var counter = 0
+        for (team in teams) {
+            if (!team.isTitleWon) {
+                counter++
+            }
+        }
+
+        return counter
+    }
+
+    fun numberOfWinningTeams(): Int{
+        var counter = 0
+        for(team in teams){
+            if (!team.isTitleWon) {
+                counter++
+            }
+        }
+        return counter
+    }
 }
+
+
 
 
 
