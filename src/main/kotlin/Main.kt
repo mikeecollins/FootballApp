@@ -68,7 +68,8 @@ fun addTeam(){
     val Teamsponsor = readNextLine("Enter a sponsorship for a team:")
     val Teamname =  readNextLine("Enter a team name:")
     val Teampoints = readNextInt("Enter points the team have earned this season (Max is 30)")
-    val isAdded = teamAPI.add(Team(Teamdivision,Teamsponsor,Teamname,Teampoints,false))
+    val Teamposition = readNextInt("Enter a team position:")
+    val isAdded = teamAPI.add(Team(Teamdivision,Teamsponsor,Teamname,Teampoints,Teamposition,false))
 
     if (isAdded) {
         println("Added successfully")
