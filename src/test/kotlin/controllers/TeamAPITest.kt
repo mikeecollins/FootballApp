@@ -63,7 +63,7 @@ class TeamAPITest {
             assertEquals(5, fullTeams!!.numberOfTeams())
             assertTrue(fullTeams!!.add(newTeam))
             assertEquals(6, fullTeams!!.numberOfTeams())
-            assertEquals(newTeam, fullTeams!!.findTeams(fullTeams!!.numberOfTeams() - 1))
+            assertEquals(newTeam, fullTeams!!.findTeam(fullTeams!!.numberOfTeams() - 1))
 
 
         }
@@ -74,7 +74,7 @@ class TeamAPITest {
             val newTeam = Team("Browy league", "Fairy", "Full Kits", 12, 6, false)
             assertEquals(0, noTeams!!.numberOfTeams())
             assertTrue(noTeams!!.add(newTeam))
-            assertEquals(newTeam, noTeams!!.findTeams(noTeams!!.numberOfTeams() - 1))
+            assertEquals(newTeam, noTeams!!.findTeam(noTeams!!.numberOfTeams() - 1))
 
         }
 

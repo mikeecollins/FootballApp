@@ -84,16 +84,14 @@ class PlayerAPI {
     }
 
 
-
-
     fun numberOfPlayersbyKitNumber(number: Int): Int {
         var counter = 0
         for (player in players) {
             if (player.Playernumber == number) {
-                counter ++
+                counter++
             }
         }
- return counter
+        return counter
     }
 
     fun numberOfInjuredPlayers(): Int {
@@ -107,9 +105,9 @@ class PlayerAPI {
         return counter
     }
 
-    fun numberofActivePlayers(): Int{
+    fun numberofActivePlayers(): Int {
         var counter = 0
-        for(player in players){
+        for (player in players) {
             if (!player.Playerinjury) {
                 counter++
             }
@@ -122,7 +120,30 @@ class PlayerAPI {
             players.removeAt(indexToDelete)
         } else null
     }
+
+
+    fun isValidListIndex(index: Int): Boolean {
+        return isValidListIndex(index, players)
+    }
+
+    fun updatePlayer(indextoUpdate: Int, player: Player?): Boolean {
+        val foundPlayer = findPlayer(indextoUpdate)
+
+        if ((foundPlayer != null) && (player != null)) {
+            foundPlayer.Firstname = player.Firstname
+            foundPlayer.Lastname = player.Lastname
+            foundPlayer.Playerposition = player.Playerposition
+            foundPlayer.Playerprice = player.Playerprice
+            foundPlayer.Playernumber = player.Playernumber
+            return true
+        }
+        return false
+
+
+    }
 }
+
+
 
 
 
