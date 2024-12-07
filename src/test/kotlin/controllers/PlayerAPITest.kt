@@ -98,7 +98,7 @@ class PlayerAPITest {
             }
 
             @Test
-            fun`listActivePlayers returns active players when ArrayList has active players stored`() {
+            fun `listActivePlayers returns active players when ArrayList has active players stored`() {
                 assertEquals(3, fullList!!.numberofActivePlayers())
                 val activePlayersString = fullList!!.listActivePlayers().lowercase()
                 assertTrue(activePlayersString.contains("bold"))
@@ -109,20 +109,54 @@ class PlayerAPITest {
             }
 
             @Test
-            fun `listInjuredPlayers returns no injured players when ArrayList is empty`(){
+            fun `listInjuredPlayers returns no injured players when ArrayList is empty`() {
                 assertEquals(0, noPlayers!!.numberOfInjuredPlayers())
                 assertTrue(noPlayers!!.listInjuredPlayers().lowercase().contains("no injured players available"))
             }
 
             @Test
-            fun `listInjuredPlayers returns injured players when ArrayList has injured players stored`(){
-            assertEquals(3, fullList!!.numberOfInjuredPlayers())
-            val injuredPlayersString = fullList!!.listInjuredPlayers().lowercase(Locale.getDefault())
+            fun `listInjuredPlayers returns injured players when ArrayList has injured players stored`() {
+                assertEquals(3, fullList!!.numberOfInjuredPlayers())
+                val injuredPlayersString = fullList!!.listInjuredPlayers().lowercase(Locale.getDefault())
                 assertFalse(injuredPlayersString.contains("bold"))
                 assertTrue(injuredPlayersString.contains("zach"))
                 assertFalse(injuredPlayersString.contains("ebidimo"))
                 assertFalse(injuredPlayersString.contains("anuj"))
                 assertTrue(injuredPlayersString.contains("chris"))
+            }
+
+            @Test
+            fun `listPlayersByKitNumber returns No Players when Array list is empty`(){
+                assertEquals(0, noPlayers!!.numberOfPlayers())
+                assertTrue(noPlayers!!.listPlayersByKitNumber(1).lowercase().contains("no kit numbers stored"))
+
+            }
+            @Test
+            fun `listPlayersByKitNumber returns no players of that kit number exist`(){
+                assertEquals(5, fullList!!.numberOfPlayers())
+                val kitnumber6String = fullList!!.listPlayersByKitNumber(2).lowercase()
+                assertTrue(kitnumber6String.contains("no"))
+                assertTrue(kitnumber6String.contains("2"))
+
+            }
+            @Test
+            fun `listPlayersByKitNumber returns all players that match kit number when players of that number exist`(){
+                assertEquals(5, fullList!!.numberOfPlayers())
+                val kitnumber6String = fullList!!.listPlayersByKitNumber(7).lowercase()
+                assertTrue(kitnumber6String.contains("7"))
+                assertTrue(kitnumber6String.contains("ebidimo"))
+
+                val kitnumber11String = fullList!!.listPlayersByKitNumber(4).lowercase()
+                assertTrue(kitnumber11String.contains("zach"))
+
+                val kitnumber12String = fullList!!.listPlayersByKitNumber(11).lowercase()
+                assertTrue(kitnumber12String.contains("anuj"))
+
+                val kitnumber13String = fullList!!.listPlayersByKitNumber(9).lowercase()
+                assertTrue(kitnumber13String.contains("bold"))
+
+                val kitnumber3String = fullList!!.listPlayersByKitNumber(6).lowercase()
+                assertTrue(kitnumber3String.contains("chris"))
             }
         }
     }

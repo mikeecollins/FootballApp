@@ -107,7 +107,7 @@ class TeamAPITest {
 
             @Test
             fun `listActiveTeams returns active teams when ArrayList has active teams stored`() {
-                assertEquals(3,fullTeams!!.numberOfActiveTeams())
+                assertEquals(3, fullTeams!!.numberOfActiveTeams())
                 val activeTeamsString = fullTeams!!.listActiveTeams().lowercase()
                 assertTrue(activeTeamsString.contains("real kotlin"))
                 assertFalse(activeTeamsString.contains("playboys"))
@@ -117,14 +117,14 @@ class TeamAPITest {
             }
 
             @Test
-            fun`listTrophyTeams returns no winning teams when ArrayList is empty`(){
+            fun `listTrophyTeams returns no winning teams when ArrayList is empty`() {
                 assertEquals(0, noTeams!!.numberOfWinningTeams())
                 assertTrue(noTeams!!.listTrophyTeams().lowercase().contains("no title winning team available"))
             }
 
             @Test
-            fun`listTrophyTeams returns winning teams when ArrayList has winning teams stored`(){
-               assertEquals(3,fullTeams!!.numberOfWinningTeams())
+            fun `listTrophyTeams returns winning teams when ArrayList has winning teams stored`() {
+                assertEquals(3, fullTeams!!.numberOfWinningTeams())
                 val winningTeamsString = fullTeams!!.listTrophyTeams().lowercase(Locale.getDefault())
                 assertFalse(winningTeamsString.contains("real kotlin"))
                 assertTrue(winningTeamsString.contains("playboys"))
@@ -132,6 +132,47 @@ class TeamAPITest {
                 assertFalse(winningTeamsString.contains("opium"))
                 assertTrue(winningTeamsString.contains("mad lads"))
             }
+
+            @Test
+            fun `listTeamByLeague returns No Teams when Array list is empty`() {
+                assertEquals(0, noTeams!!.numberOfTeams())
+                assertTrue(noTeams!!.listTeamByLeague(1).lowercase().contains("no teams"))
+            }
+
+            @Test
+            fun `listTeamByLeague returns no teams of that kit number exist`() {
+                assertEquals(5, fullTeams!!.numberOfTeams())
+                val teamnumber5string = fullTeams!!.listTeamByLeague(1).lowercase()
+               // assertTrue(teamnumber5string.contains("no teams available"))
+                assertTrue(teamnumber5string.contains("1"))
+            }
+
+            @Test
+            fun`listTeamByLeague returns all teams that match position when teams of that position exist`(){
+              assertEquals(5, fullTeams!!.numberOfTeams())
+                val teamnumber1string = fullTeams!!.listTeamByLeague(1).lowercase()
+                assertTrue(teamnumber1string.contains("1"))
+                assertTrue(teamnumber1string.contains("playboys"))
+
+                val teamnumber2string = fullTeams!!.listTeamByLeague(2).lowercase()
+                assertTrue(teamnumber2string.contains("2"))
+                assertTrue(teamnumber2string.contains("real kotlin"))
+
+                val teamnumber3string = fullTeams!!.listTeamByLeague(3).lowercase()
+                assertTrue(teamnumber3string.contains("3"))
+                assertTrue(teamnumber3string.contains("intellij aid"))
+
+                val teamnumber4string = fullTeams!!.listTeamByLeague(4).lowercase()
+                assertTrue(teamnumber4string.contains("4"))
+                assertTrue(teamnumber4string.contains("opium"))
+
+                val teamnumber6string = fullTeams!!.listTeamByLeague(5).lowercase()
+                assertTrue(teamnumber6string.contains("5"))
+                assertTrue(teamnumber6string.contains("mad lads"))
+
+
+            }
+
         }
     }
 }
