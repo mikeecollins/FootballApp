@@ -4,6 +4,7 @@ package controllers
 import org.example.controllers.TeamAPI
 import org.example.models.Team
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -143,13 +144,13 @@ class TeamAPITest {
             fun `listTeamByLeague returns no teams of that kit number exist`() {
                 assertEquals(5, fullTeams!!.numberOfTeams())
                 val teamnumber5string = fullTeams!!.listTeamByLeague(1).lowercase()
-               // assertTrue(teamnumber5string.contains("no teams available"))
+                // assertTrue(teamnumber5string.contains("no teams available"))
                 assertTrue(teamnumber5string.contains("1"))
             }
 
             @Test
-            fun`listTeamByLeague returns all teams that match position when teams of that position exist`(){
-              assertEquals(5, fullTeams!!.numberOfTeams())
+            fun `listTeamByLeague returns all teams that match position when teams of that position exist`() {
+                assertEquals(5, fullTeams!!.numberOfTeams())
                 val teamnumber1string = fullTeams!!.listTeamByLeague(1).lowercase()
                 assertTrue(teamnumber1string.contains("1"))
                 assertTrue(teamnumber1string.contains("playboys"))
@@ -173,6 +174,25 @@ class TeamAPITest {
 
             }
 
+            @Nested
+            inner class DeleteTeams {
+
+                @Test
+                fun `deleting a Team that does not exist, returns null`(){
+                    assertNull(noTeams!!.deleteTeam(-0))
+                    assertNull(noTeams!!.deleteTeam(-1))
+                    assertNull(noTeams!!.deleteTeam(5))
+                }
+                @Test
+                fun`deleting a team that exist delete and returns deleted object`(){
+                    assertEquals(5,fullTeams!!.numberOfTeams())
+                    assertEquals(teamFive, fullTeams!!.deleteTeam(4))
+                    assertEquals(4,fullTeams!!.numberOfTeams())
+                    assertEquals(teamOne, fullTeams!!.deleteTeam(0))
+                    assertEquals(3,fullTeams!!.numberOfTeams())
+                }
+
+            }
         }
     }
 }

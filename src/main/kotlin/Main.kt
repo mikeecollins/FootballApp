@@ -105,7 +105,16 @@ fun updateTeam(){
 }
 
 fun deleteTeam(){
-    logger.info { "deleteTeam() function invoked" }
+  listTeam()
+    if (teamAPI.numberOfTeams()>0){
+        val indexToDelete = readNextInt("Enter the team name you want to delete:")
+        val teamToDelete = teamAPI.deleteTeam(indexToDelete)
+        if (teamToDelete != null) {
+            println("Deleted successfully Deleted team: ${teamToDelete.Teamname}")
+        } else {
+            println("Deleted failed")
+        }
+    }
 }
 
 fun listPlayer(){
@@ -115,7 +124,16 @@ fun updatePlayer(){
     logger.info { "updatePlayer() function invoked" }
 }
 fun deletePlayer(){
-    logger.info { "deletePlayer() function invoked" }
+    listPlayer()
+    if (playerAPI.numberOfPlayers()>0) {
+        val indexToDelete = readNextInt("Enter the player you want to delete:")
+        val playerToDelete = playerAPI.deletePlayer(indexToDelete)
+        if (playerToDelete != null) {
+            println("Player Deleted! Deleted player: ${playerToDelete.Firsname}")
+        } else {
+            println("Error Deleting Player")
+        }
+    }
 }
 
 
