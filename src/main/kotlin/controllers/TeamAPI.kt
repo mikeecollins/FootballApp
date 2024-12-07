@@ -27,7 +27,7 @@ class TeamAPI {
         return teams.size
     }
 
-    fun findTeams(index: Int): Team? {
+    fun findTeam(index: Int): Team? {
         return if (isValidListIndex(index, teams)) {
             teams[index]
         } else null
@@ -126,6 +126,25 @@ class TeamAPI {
         return if(isValidListIndex(indexToDelete, teams)) {
             teams.removeAt(indexToDelete)
         } else null
+    }
+
+    fun updateTeam(indexToUpdate: Int, team: Team?):Boolean {
+        val foundTeam = findTeam(indexToUpdate)
+
+        if ((foundTeam != null) && (team != null)) {
+            foundTeam.Teamname = team.Teamname
+            foundTeam.Teamdivision = team.Teamdivision
+            foundTeam.Teamposition = team.Teamposition
+            foundTeam.Teamsponsor = team.Teamsponsor
+            foundTeam.Teampoints = team.Teampoints
+            return true
+        }
+
+        return false
+    }
+
+    fun isValidIndex(index: Int) :Boolean{
+        return isValidListIndex(index, teams)
     }
 }
 

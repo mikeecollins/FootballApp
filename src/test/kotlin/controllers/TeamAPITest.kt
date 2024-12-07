@@ -63,7 +63,7 @@ class TeamAPITest {
             assertEquals(5, fullTeams!!.numberOfTeams())
             assertTrue(fullTeams!!.add(newTeam))
             assertEquals(6, fullTeams!!.numberOfTeams())
-            assertEquals(newTeam, fullTeams!!.findTeams(fullTeams!!.numberOfTeams() - 1))
+            assertEquals(newTeam, fullTeams!!.findTeam(fullTeams!!.numberOfTeams() - 1))
 
 
         }
@@ -74,7 +74,7 @@ class TeamAPITest {
             val newTeam = Team("Browy league", "Fairy", "Full Kits", 12, 6, false)
             assertEquals(0, noTeams!!.numberOfTeams())
             assertTrue(noTeams!!.add(newTeam))
-            assertEquals(newTeam, noTeams!!.findTeams(noTeams!!.numberOfTeams() - 1))
+            assertEquals(newTeam, noTeams!!.findTeam(noTeams!!.numberOfTeams() - 1))
 
         }
 
@@ -190,6 +190,31 @@ class TeamAPITest {
                     assertEquals(4,fullTeams!!.numberOfTeams())
                     assertEquals(teamOne, fullTeams!!.deleteTeam(0))
                     assertEquals(3,fullTeams!!.numberOfTeams())
+                }
+
+                @Nested
+                inner class UpdateTeam
+                @Test
+                fun `updating a team that does not exist returns false`(){
+                    assertFalse(fullTeams!!.updateTeam(6, Team("La Liga","Fly Emirates","Girona",28,10,false)))
+                    assertFalse(fullTeams!!.updateTeam(-1, Team("Premier division","Shiki Sushi","Bohs FC",25,7,false)))
+                    assertFalse(noTeams!!.updateTeam(0,Team("First league","Aldi","Gutters",8,20,false)))
+                }
+                @Test
+                fun `updating a team that exists returns true and updates`() {
+                    assertEquals(teamFive,fullTeams!!.findTeam(4))
+                    assertEquals("Mad Lads",fullTeams!!.findTeam(4)!!.Teamname)
+                    assertEquals(5,fullTeams!!.findTeam(4)!!.Teamposition)
+                    assertEquals("Dairygold",fullTeams!!.findTeam(4)!!.Teamsponsor)
+                    assertEquals(16,fullTeams!!.findTeam(4)!!.Teampoints)
+                    assertEquals("LaDivision league",fullTeams!!.findTeam(4)!!.Teamdivision)
+
+                    assertTrue(fullTeams!!.updateTeam(4,Team("Champs Div","Londais","Crystal",17,9,false)))
+                    assertEquals("Champs Div",fullTeams!!.findTeam(4)!!.Teamdivision)
+                    assertEquals("Londais",fullTeams!!.findTeam(4)!!.Teamsponsor)
+                    assertEquals("Crystal",fullTeams!!.findTeam(4)!!.Teamname)
+                    assertEquals(17,fullTeams!!.findTeam(4)!!.Teampoints)
+                    assertEquals(9,fullTeams!!.findTeam(4)!!.Teamposition)
                 }
 
             }

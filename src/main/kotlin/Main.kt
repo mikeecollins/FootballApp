@@ -101,7 +101,24 @@ fun listTeam(){
 }
 
 fun updateTeam(){
-    logger.info { "updateTeam() function invoked" }
+    listTeam()
+    if (teamAPI.numberOfTeams() > 0 ){
+        val indexToUpdate = readNextInt("Enter the index of the team you would like to update")
+        if (teamAPI.isValidIndex(indexToUpdate)) {
+            val Teamdivision = readNextLine("enter the teams current division")
+            val Teamsponsor = readNextLine("enter the teams sponsorship")
+            val Teamname = readNextLine("Enter the team name")
+            val Teampoints = readNextInt("Enter the teams points")
+            val Teamposition = readNextInt("Enter the team current position")
+
+            if (teamAPI.updateTeam(indexToUpdate, Team(Teamdivision,Teamsponsor,Teamname,Teamposition,Teampoints,false)))
+                println("Updated successfully")
+        } else {
+            println("Update failed")
+        }
+    } else {
+        println("Index does not exist for this team")
+    }
 }
 
 fun deleteTeam(){
@@ -121,7 +138,25 @@ fun listPlayer(){
     println(playerAPI.listAllPlayers())
 }
 fun updatePlayer(){
-    logger.info { "updatePlayer() function invoked" }
+   listPlayer()
+    if (playerAPI.numberOfPlayers() > 0){
+        val indexToUpdate = readNextInt("Enter the index of the player to update:")
+        if (playerAPI.isValidListIndex(indexToUpdate)){
+            val Firstname = readNextLine("Enter the first name of the player")
+            val Lastname = readNextLine("Enter the last name of the player")
+            val Playerposition = readNextLine("Enter the player position")
+            val Playerprice = readNextDouble("Enter the players price")
+            val Playernumber = readNextInt("Enter the players kit number")
+
+            if (playerAPI.updatePlayer(indexToUpdate, Player(Firstname,Lastname,Playerposition,Playerprice,Playernumber,false))){
+                println("Updated")
+                } else {
+                    println("Updated failed")
+                }
+         } else {
+             println("Index does not exist for this player")
+        }
+    }
 }
 fun deletePlayer(){
     listPlayer()
@@ -129,7 +164,7 @@ fun deletePlayer(){
         val indexToDelete = readNextInt("Enter the player you want to delete:")
         val playerToDelete = playerAPI.deletePlayer(indexToDelete)
         if (playerToDelete != null) {
-            println("Player Deleted! Deleted player: ${playerToDelete.Firsname}")
+            println("Player Deleted! Deleted player: ${playerToDelete.Firstname}")
         } else {
             println("Error Deleting Player")
         }
