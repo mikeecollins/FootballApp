@@ -121,6 +121,12 @@ class TeamAPI {
         }
         return counter
     }
+
+    fun deleteTeam(indexToDelete: Int):Team? {
+        return if(isValidListIndex(indexToDelete, teams)) {
+            teams.removeAt(indexToDelete)
+        } else null
+    }
 }
 
 

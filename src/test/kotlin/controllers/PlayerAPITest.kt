@@ -4,6 +4,7 @@ import org.example.controllers.PlayerAPI
 import org.example.models.Player
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -158,6 +159,28 @@ class PlayerAPITest {
                 val kitnumber3String = fullList!!.listPlayersByKitNumber(6).lowercase()
                 assertTrue(kitnumber3String.contains("chris"))
             }
+
+            @Nested
+            inner class DeletePlayers
+
+            @Test
+            fun`deleting a Player that does not exist, return null`(){
+                assertNull(noPlayers!!.deletePlayer(0))
+                assertNull(noPlayers!!.deletePlayer(-1))
+                assertNull(noPlayers!!.deletePlayer(5))
+            }
+
+            @Test
+            fun `deleting a player that exists delete and return deleted object`(){
+                assertEquals(5, fullList!!.numberOfPlayers())
+                assertEquals(playerOne, fullList!!.deletePlayer(0))
+                assertEquals(4, fullList!!.numberOfPlayers())
+                assertEquals(playerFour, fullList!!.deletePlayer(2))
+                assertEquals(3, fullList!!.numberOfPlayers())
+            }
+
+        }
+
         }
     }
-}
+

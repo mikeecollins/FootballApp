@@ -116,6 +116,12 @@ class PlayerAPI {
         }
         return counter
     }
+
+    fun deletePlayer(indexToDelete: Int): Player? {
+        return if (isValidListIndex(indexToDelete, players)) {
+            players.removeAt(indexToDelete)
+        } else null
+    }
 }
 
 
