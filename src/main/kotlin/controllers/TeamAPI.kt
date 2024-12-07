@@ -67,6 +67,40 @@ class TeamAPI {
         }
     }
 
+    fun listTeamByLeague(position: Int): String {
+        return if (teams.isEmpty()) {
+            "no teams available"
+        } else {
+            var listOfTeams = ""
+            for (i in teams.indices) {
+                if (teams[i].Teamposition == position) {
+                    listOfTeams +=
+                       """"$i: ${ teams[i] }
+                    """.trimIndent()
+
+                }
+
+            }
+            if (listOfTeams == "") {
+                "no teams with position: $position"
+            } else {
+                "${numberOfTeamsByPosition(position)}  teams with position: $position: $listOfTeams"
+
+            }
+
+        }
+    }
+
+    fun numberOfTeamsByPosition(position: Int): Int {
+        var counter = 0
+        for (team in teams) {
+            if (team.Teamposition == position) {
+                counter++
+            }
+        }
+        return counter
+    }
+
     fun numberOfActiveTeams(): Int {
         var counter = 0
         for (team in teams) {

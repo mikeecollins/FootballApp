@@ -80,7 +80,7 @@ fun addTeam(){
 
 fun addPlayer(){
 
-    val Firstname = readNextLine("Enter the players firtname")
+    val Firstname = readNextLine("Enter the players first name")
     val Lastname = readNextLine("Enter the players last name")
     val  Playerposition= readNextLine("Which posistion does this player play in")
     val  Playerprice= readNextDouble(" Enter the players price")

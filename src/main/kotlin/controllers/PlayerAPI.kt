@@ -63,6 +63,39 @@ class PlayerAPI {
         }
     }
 
+    fun listPlayersByKitNumber(number: Int): String {
+        return if (players.isEmpty()) {
+            "no kit numbers stored"
+        } else {
+            var listOfPlayers = ""
+            for (i in players.indices) {
+                if (players[i].Playernumber == number) {
+                    listOfPlayers +=
+                        """$i: ${players[i]}
+                        """.trimIndent()
+                }
+            }
+            if (listOfPlayers == "") {
+                "no player with kit number: $number"
+            } else {
+                "${numberOfPlayersbyKitNumber(number)} kits with kit numbers $number: $listOfPlayers"
+            }
+        }
+    }
+
+
+
+
+    fun numberOfPlayersbyKitNumber(number: Int): Int {
+        var counter = 0
+        for (player in players) {
+            if (player.Playernumber == number) {
+                counter ++
+            }
+        }
+ return counter
+    }
+
     fun numberOfInjuredPlayers(): Int {
         var counter = 0
         for (player in players) {
