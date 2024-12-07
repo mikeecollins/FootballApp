@@ -179,7 +179,36 @@ class PlayerAPITest {
                 assertEquals(3, fullList!!.numberOfPlayers())
             }
 
+            @Nested
+            inner class UpdatePlayer{
+            @Test
+            fun `updating a player that does not exist returns false `(){
+                assertFalse(fullList!!.updatePlayer(6,Player("Mike","Collins","Center Midfield,",900.00,92,false)))
+                assertFalse(fullList!!.updatePlayer(-1, Player("Sam","Duggan","Center Attacking Mid",1000.00,10,false)))
+                assertFalse(noPlayers!!.updatePlayer(0,Player("Josh","Fenton","Right wing",1050.00,48,false)))
+            }
+
+                @Test
+                fun `updating a player that exist returns true `(){
+                    assertEquals(playerFive,fullList!!.findPlayer(4))
+                    assertEquals("Chris",fullList!!.findPlayer(4)!!.Firstname)
+                    assertEquals("Yasen",fullList!!.findPlayer(4)!!.Lastname)
+                    assertEquals(6,fullList!!.findPlayer(4)!!.Playernumber)
+                    assertEquals(2000.0,fullList!!.findPlayer(4)!!.Playerprice)
+                    assertEquals("Center Defensive Midfielder",fullList!!.findPlayer(4)!!.Playerposition)
+
+                    assertTrue(fullList!!.updatePlayer(4,Player("Urama","Shun","Striker",550.00,20,false)))
+                    assertEquals("Urama",fullList!!.findPlayer(4)!!.Firstname)
+                    assertEquals("Shun",fullList!!.findPlayer(4)!!.Lastname)
+                    assertEquals(20,fullList!!.findPlayer(4)!!.Playernumber)
+                    assertEquals(550.00,fullList!!.findPlayer(4)!!.Playerprice)
+                    assertEquals("Striker",fullList!!.findPlayer(4)!!.Playerposition)
+                }
+            }
+
+
         }
+
 
         }
     }
