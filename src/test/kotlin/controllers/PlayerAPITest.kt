@@ -3,6 +3,7 @@ package controllers
 import org.example.controllers.PlayerAPI
 import org.example.controllers.TeamAPI
 import org.example.models.Player
+import org.example.persistence.JSONSerializer
 import org.example.persistence.XMLSerializer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -245,6 +246,41 @@ inner class PersistenceTests{
         assertEquals(storingPlayers.findPlayer(2),loadedPlayers.findPlayer(2))
 
 
+    }
+    @Test
+    fun `saving and loading an empty collection in JSON doesn't crash app`() {
+
+        val storingPlayers = PlayerAPI(JSONSerializer(File("players.json")))
+        storingPlayers.store()
+
+        val loadedPlayers = PlayerAPI(JSONSerializer(File("players.json")))
+        loadedPlayers.load()
+
+
+        assertEquals(0, storingPlayers.numberOfPlayers())
+        assertEquals(0, loadedPlayers.numberOfPlayers())
+        assertEquals(storingPlayers.numberOfPlayers(), loadedPlayers.numberOfPlayers())
+    }
+
+    @Test
+    fun `saving and loading an loaded collection in JSON doesn't loose data`() {
+        val storingPlayers = PlayerAPI(JSONSerializer(File("players.json")))
+        storingPlayers.add(playerOne!!)
+        storingPlayers.add(playerTwo!!)
+        storingPlayers.add(playerThree!!)
+        storingPlayers.add(playerFour!!)
+        storingPlayers.add(playerFive!!)
+        storingPlayers.store()
+        
+        val loadedPlayers = PlayerAPI(JSONSerializer(File("players.json")))
+        loadedPlayers.load()
+
+        assertEquals(5, storingPlayers.numberOfPlayers())
+        assertEquals(5, loadedPlayers.numberOfPlayers())
+        assertEquals(storingPlayers.numberOfPlayers(), loadedPlayers.numberOfPlayers())
+        assertEquals(storingPlayers.findPlayer(0), loadedPlayers.findPlayer(0))
+        assertEquals(storingPlayers.findPlayer(1), loadedPlayers.findPlayer(1))
+        assertEquals(storingPlayers.findPlayer(2), loadedPlayers.findPlayer(2))
     }
 }
 

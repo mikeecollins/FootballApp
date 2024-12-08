@@ -1,9 +1,8 @@
 package controllers
 
-
-import org.example.controllers.PlayerAPI
 import org.example.controllers.TeamAPI
 import org.example.models.Team
+import org.example.persistence.JSONSerializer
 import org.example.persistence.XMLSerializer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertNull
@@ -264,6 +263,42 @@ class TeamAPITest {
                         assertEquals(storingTeams.findTeam(0),loadedTeams.findTeam(0))
                         assertEquals(storingTeams.findTeam(1),loadedTeams.findTeam(1))
                         assertEquals(storingTeams.findTeam(2),loadedTeams.findTeam(2))
+                    }
+
+                    @Test
+                    fun `saving and loading an empty collection in JSON doesn't crash app`() {
+
+                        val storingteams = TeamAPI(JSONSerializer(File("teams.json")))
+                        storingteams.store()
+
+                        val loadedteams = TeamAPI(JSONSerializer(File("teams.json")))
+                        loadedteams.load()
+
+
+                        assertEquals(0, storingteams.numberOfTeams())
+                        assertEquals(0, loadedteams.numberOfTeams())
+                        assertEquals(storingteams.numberOfTeams(), loadedteams.numberOfTeams())
+                    }
+
+                    @Test
+                    fun `saving and loading an loaded collection in JSON doesn't loose data`() {
+                        val storingteams = TeamAPI(JSONSerializer(File("teams.json")))
+                        storingteams.add(teamOne!!)
+                        storingteams.add(teamTwo!!)
+                        storingteams.add(teamThree!!)
+                        storingteams.add(teamFour!!)
+                        storingteams.add(teamFive!!)
+                        storingteams.store()
+
+                        val loadedteams = TeamAPI(JSONSerializer(File("teams.json")))
+                        loadedteams.load()
+
+                        assertEquals(5, storingteams.numberOfTeams())
+                        assertEquals(5, loadedteams.numberOfTeams())
+                        assertEquals(storingteams.numberOfTeams(), loadedteams.numberOfTeams())
+                        assertEquals(storingteams.findTeam(0), loadedteams.findTeam(0))
+                        assertEquals(storingteams.findTeam(1), loadedteams.findTeam(1))
+                        assertEquals(storingteams.findTeam(2), loadedteams.findTeam(2))
                     }
                 }
             }
