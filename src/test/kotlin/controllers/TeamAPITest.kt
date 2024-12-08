@@ -1,6 +1,7 @@
 package controllers
 
 
+import org.example.controllers.PlayerAPI
 import org.example.controllers.TeamAPI
 import org.example.models.Team
 import org.example.persistence.XMLSerializer
@@ -180,45 +181,91 @@ class TeamAPITest {
             inner class DeleteTeams {
 
                 @Test
-                fun `deleting a Team that does not exist, returns null`(){
+                fun `deleting a Team that does not exist, returns null`() {
                     assertNull(noTeams!!.deleteTeam(-0))
                     assertNull(noTeams!!.deleteTeam(-1))
                     assertNull(noTeams!!.deleteTeam(5))
                 }
+
                 @Test
-                fun`deleting a team that exist delete and returns deleted object`(){
-                    assertEquals(5,fullTeams!!.numberOfTeams())
+                fun `deleting a team that exist delete and returns deleted object`() {
+                    assertEquals(5, fullTeams!!.numberOfTeams())
                     assertEquals(teamFive, fullTeams!!.deleteTeam(4))
-                    assertEquals(4,fullTeams!!.numberOfTeams())
+                    assertEquals(4, fullTeams!!.numberOfTeams())
                     assertEquals(teamOne, fullTeams!!.deleteTeam(0))
-                    assertEquals(3,fullTeams!!.numberOfTeams())
+                    assertEquals(3, fullTeams!!.numberOfTeams())
                 }
 
                 @Nested
                 inner class UpdateTeam
+
                 @Test
-                fun `updating a team that does not exist returns false`(){
-                    assertFalse(fullTeams!!.updateTeam(6, Team("La Liga","Fly Emirates","Girona",28,10,false)))
-                    assertFalse(fullTeams!!.updateTeam(-1, Team("Premier division","Shiki Sushi","Bohs FC",25,7,false)))
-                    assertFalse(noTeams!!.updateTeam(0,Team("First league","Aldi","Gutters",8,20,false)))
+                fun `updating a team that does not exist returns false`() {
+                    assertFalse(fullTeams!!.updateTeam(6, Team("La Liga", "Fly Emirates", "Girona", 28, 10, false)))
+                    assertFalse(
+                        fullTeams!!.updateTeam(
+                            -1,
+                            Team("Premier division", "Shiki Sushi", "Bohs FC", 25, 7, false)
+                        )
+                    )
+                    assertFalse(noTeams!!.updateTeam(0, Team("First league", "Aldi", "Gutters", 8, 20, false)))
                 }
+
                 @Test
                 fun `updating a team that exists returns true and updates`() {
-                    assertEquals(teamFive,fullTeams!!.findTeam(4))
-                    assertEquals("Mad Lads",fullTeams!!.findTeam(4)!!.Teamname)
-                    assertEquals(5,fullTeams!!.findTeam(4)!!.Teamposition)
-                    assertEquals("Dairygold",fullTeams!!.findTeam(4)!!.Teamsponsor)
-                    assertEquals(16,fullTeams!!.findTeam(4)!!.Teampoints)
-                    assertEquals("LaDivision league",fullTeams!!.findTeam(4)!!.Teamdivision)
+                    assertEquals(teamFive, fullTeams!!.findTeam(4))
+                    assertEquals("Mad Lads", fullTeams!!.findTeam(4)!!.Teamname)
+                    assertEquals(5, fullTeams!!.findTeam(4)!!.Teamposition)
+                    assertEquals("Dairygold", fullTeams!!.findTeam(4)!!.Teamsponsor)
+                    assertEquals(16, fullTeams!!.findTeam(4)!!.Teampoints)
+                    assertEquals("LaDivision league", fullTeams!!.findTeam(4)!!.Teamdivision)
 
-                    assertTrue(fullTeams!!.updateTeam(4,Team("Champs Div","Londais","Crystal",17,9,false)))
-                    assertEquals("Champs Div",fullTeams!!.findTeam(4)!!.Teamdivision)
-                    assertEquals("Londais",fullTeams!!.findTeam(4)!!.Teamsponsor)
-                    assertEquals("Crystal",fullTeams!!.findTeam(4)!!.Teamname)
-                    assertEquals(17,fullTeams!!.findTeam(4)!!.Teampoints)
-                    assertEquals(9,fullTeams!!.findTeam(4)!!.Teamposition)
+                    assertTrue(fullTeams!!.updateTeam(4, Team("Champs Div", "Londais", "Crystal", 17, 9, false)))
+                    assertEquals("Champs Div", fullTeams!!.findTeam(4)!!.Teamdivision)
+                    assertEquals("Londais", fullTeams!!.findTeam(4)!!.Teamsponsor)
+                    assertEquals("Crystal", fullTeams!!.findTeam(4)!!.Teamname)
+                    assertEquals(17, fullTeams!!.findTeam(4)!!.Teampoints)
+                    assertEquals(9, fullTeams!!.findTeam(4)!!.Teamposition)
                 }
 
+                @Nested
+                inner class PersistenceTests {
+
+                    @Test
+                    fun ` saving and loading an empty collection in XML does not crash app`() {
+                        val storingTeams = TeamAPI(XMLSerializer(File("teams.xml")))
+                        storingTeams.store()
+
+                        val loadedTeams = TeamAPI(XMLSerializer(File("teams.xml")))
+                        loadedTeams.load()
+
+                        assertEquals(0, storingTeams.numberOfTeams())
+                        assertEquals(0, loadedTeams.numberOfTeams())
+                        assertEquals(storingTeams.numberOfTeams(),loadedTeams.numberOfTeams())
+
+                    }
+
+                    @Test
+                    fun `saving and loading an loaded collection in XML doesn't loose data`() {
+                        val storingTeams = TeamAPI(XMLSerializer(File("teams.xml")))
+                        storingTeams.add(teamOne!!)
+                        storingTeams.add(teamTwo!!)
+                        storingTeams.add(teamThree!!)
+                        storingTeams.add(teamFour!!)
+                        storingTeams.add(teamFive!!)
+                        storingTeams.store()
+
+                        val loadedTeams = TeamAPI(XMLSerializer(File("teams.xml")))
+                        loadedTeams.load()
+
+                        assertEquals(5, storingTeams.numberOfTeams())
+                        assertEquals(5, storingTeams.numberOfTeams())
+                        assertEquals(storingTeams.numberOfTeams(),loadedTeams.numberOfTeams())
+                        assertEquals(storingTeams.findTeam(0),loadedTeams.findTeam(0))
+                        assertEquals(storingTeams.findTeam(1),loadedTeams.findTeam(1))
+                        assertEquals(storingTeams.findTeam(2),loadedTeams.findTeam(2))
+                    }
+                }
             }
         }
     }

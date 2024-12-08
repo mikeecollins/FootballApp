@@ -207,7 +207,46 @@ class PlayerAPITest {
                     assertEquals(550.00,fullList!!.findPlayer(4)!!.Playerprice)
                     assertEquals("Striker",fullList!!.findPlayer(4)!!.Playerposition)
                 }
+@Nested
+inner class PersistenceTests{
 
+    @Test
+    fun` saving and loading an empty collection in XML does not crash app` (){
+        val storingPlayers = PlayerAPI(XMLSerializer(File("players.xml")))
+        storingPlayers.store()
+
+        val loadedPlayers = PlayerAPI(XMLSerializer(File("players.xml")))
+        loadedPlayers.load()
+
+        assertEquals(0, storingPlayers.numberOfPlayers())
+        assertEquals(0, loadedPlayers.numberOfPlayers())
+        assertEquals(storingPlayers.numberOfPlayers(),loadedPlayers.numberOfPlayers())
+
+    }
+
+    @Test
+    fun `saving and loading an loaded collection in XML doesn't loose data`() {
+        val storingPlayers = PlayerAPI(XMLSerializer(File("players.xml")))
+        storingPlayers.add(playerOne!!)
+        storingPlayers.add(playerTwo!!)
+        storingPlayers.add(playerThree!!)
+        storingPlayers.add(playerFour!!)
+        storingPlayers.add(playerFive!!)
+        storingPlayers.store()
+
+        val loadedPlayers = PlayerAPI(XMLSerializer(File("players.xml")))
+        loadedPlayers.load()
+
+        assertEquals(5,storingPlayers.numberOfPlayers())
+        assertEquals(5,loadedPlayers.numberOfPlayers())
+        assertEquals(storingPlayers.numberOfPlayers(),loadedPlayers.numberOfPlayers())
+        assertEquals(storingPlayers.findPlayer(0),loadedPlayers.findPlayer(0))
+        assertEquals(storingPlayers.findPlayer(1),loadedPlayers.findPlayer(1))
+        assertEquals(storingPlayers.findPlayer(2),loadedPlayers.findPlayer(2))
+
+
+    }
+}
 
             }
 
