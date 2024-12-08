@@ -1,13 +1,16 @@
 package controllers
 
 import org.example.controllers.PlayerAPI
+import org.example.controllers.TeamAPI
 import org.example.models.Player
+import org.example.persistence.XMLSerializer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.io.File
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -19,8 +22,8 @@ class PlayerAPITest {
     private var playerThree: Player? = null
     private var playerFour: Player? = null
     private var playerFive: Player? = null
-    private var fullList: PlayerAPI? = PlayerAPI()
-    private var noPlayers: PlayerAPI? = PlayerAPI()
+    private var fullList: PlayerAPI? = PlayerAPI(XMLSerializer(File("players.xml")))
+    private var noPlayers: PlayerAPI? = PlayerAPI(XMLSerializer(File("players.xml")))
 
 
     @BeforeEach
@@ -206,16 +209,6 @@ class PlayerAPITest {
                 }
 
 
-            }
-
-            @Throws(Exception::class)
-            fun load() {
-                players = serializer.read() as ArrayList<Player>
-            }
-
-            @Throws(Exception::class)
-            fun store() {
-                serializer.write(players)
             }
 
 
