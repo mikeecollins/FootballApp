@@ -1,9 +1,12 @@
 package org.example.controllers
 
-import org.example.models.Player
 import org.example.models.Team
 
-class TeamAPI {
+import org.example.persistence.XMLSerializer
+import persistence.Serializer
+
+class TeamAPI(serializertype: Serializer) {
+    private var serializer: Serializer = serializertype
     private var teams = ArrayList<Team>()
 
     fun add(team: Team): Boolean {
@@ -145,6 +148,15 @@ class TeamAPI {
 
     fun isValidIndex(index: Int) :Boolean{
         return isValidListIndex(index, teams)
+    }
+    @Throws(Exception::class)
+    fun load() {
+        teams = serializer.read() as ArrayList<Team>
+    }
+
+    @Throws(Exception::class)
+    fun store(){
+        serializer.write(teams)
     }
 }
 

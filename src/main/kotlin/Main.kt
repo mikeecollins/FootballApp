@@ -5,16 +5,18 @@ import org.example.controllers.PlayerAPI
 import org.example.controllers.TeamAPI
 import org.example.models.Player
 import org.example.models.Team
+import org.example.persistence.XMLSerializer
 import org.example.utils.readNextDouble
 import org.example.utils.readNextInt
 import org.example.utils.readNextLine
+import java.io.File
 import java.lang.System.exit
 
 
 
 private val logger = KotlinLogging.logger {}
-private val teamAPI = TeamAPI()
-private val playerAPI = PlayerAPI()
+private val teamAPI = TeamAPI(XMLSerializer(File("teams.xml")))
+private val playerAPI = PlayerAPI(XMLSerializer(File("players.xml")))
 
 fun main() {
     runMenu()
@@ -168,6 +170,39 @@ fun deletePlayer(){
         } else {
             println("Error Deleting Player")
         }
+
+        fun savePlayer() {
+            try {
+                playerAPI.store()
+
+            } catch (e: Exception) {
+                System.err.println("Error writing to file: $e")
+            }
+                    
+        }
+        fun loadPlayer(){
+            try {
+                playerAPI.load()
+            }catch (e: Exception){
+                System.err.println("Error reading file: $e")
+            }
+        }
+
+        fun saveTeam(){
+            try {
+                teamAPI.store()
+            } catch (e: Exception) {
+                System.err.println("Error writing to file: $e")
+            }
+        }
+        fun loadTeam(){
+            try {
+                teamAPI.load()
+            }catch (e: Exception){
+                System.err.println("Error writing file: $e")
+            }
+        }
+
     }
 }
 

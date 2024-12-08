@@ -1,13 +1,18 @@
 package org.example.controllers
 
 import org.example.models.Player
+import org.example.models.Team
+import persistence.Serializer
 
-class PlayerAPI {
+class PlayerAPI (serializertype: Serializer){
+
+    private var serializer: Serializer = serializertype
     private var players = ArrayList<Player>()
 
     fun add(player: Player): Boolean {
         return players.add(player)
     }
+
 
     fun listAllPlayers(): String {
         return if (players.isEmpty()) {
@@ -140,6 +145,16 @@ class PlayerAPI {
         return false
 
 
+    }
+
+    @Throws(Exception::class)
+    fun load() {
+        players = serializer.read() as ArrayList<Player>
+    }
+
+    @Throws(Exception::class)
+    fun store(){
+        serializer.write(players)
     }
 }
 

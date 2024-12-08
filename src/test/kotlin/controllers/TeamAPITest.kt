@@ -3,11 +3,13 @@ package controllers
 
 import org.example.controllers.TeamAPI
 import org.example.models.Team
+import org.example.persistence.XMLSerializer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.io.File
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -20,8 +22,8 @@ class TeamAPITest {
     private var teamThree: Team? = null
     private var teamFour: Team? = null
     private var teamFive: Team? = null
-    private var fullTeams: TeamAPI? = TeamAPI()
-    private var noTeams: TeamAPI? = TeamAPI()
+    private var fullTeams: TeamAPI? = TeamAPI(XMLSerializer(File("teams.xml")))
+    private var noTeams: TeamAPI? = TeamAPI(XMLSerializer(File("teams.xml")))
 
     @BeforeEach
     fun setup() {

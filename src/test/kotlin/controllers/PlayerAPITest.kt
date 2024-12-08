@@ -204,6 +204,18 @@ class PlayerAPITest {
                     assertEquals(550.00,fullList!!.findPlayer(4)!!.Playerprice)
                     assertEquals("Striker",fullList!!.findPlayer(4)!!.Playerposition)
                 }
+
+
+            }
+
+            @Throws(Exception::class)
+            fun load() {
+                players = serializer.read() as ArrayList<Player>
+            }
+
+            @Throws(Exception::class)
+            fun store() {
+                serializer.write(players)
             }
 
 
