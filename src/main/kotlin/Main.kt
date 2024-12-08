@@ -5,6 +5,7 @@ import org.example.controllers.PlayerAPI
 import org.example.controllers.TeamAPI
 import org.example.models.Player
 import org.example.models.Team
+import org.example.persistence.JSONSerializer
 import org.example.persistence.XMLSerializer
 import org.example.utils.readNextDouble
 import org.example.utils.readNextInt
@@ -15,8 +16,10 @@ import java.lang.System.exit
 
 
 private val logger = KotlinLogging.logger {}
-private val teamAPI = TeamAPI(XMLSerializer(File("teams.xml")))
-private val playerAPI = PlayerAPI(XMLSerializer(File("players.xml")))
+//private val teamAPI = TeamAPI(XMLSerializer(File("teams.xml")))
+private  val teamAPI = TeamAPI(JSONSerializer(File("teams.json")))
+//private val playerAPI = PlayerAPI(XMLSerializer(File("players.xml")))
+private val playerAPI = PlayerAPI(JSONSerializer(File("players.json")))
 
 fun main() {
     runMenu()
